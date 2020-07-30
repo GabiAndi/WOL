@@ -6,39 +6,33 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>550</width>
-    <height>160</height>
+    <width>580</width>
+    <height>460</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>550</width>
-    <height>160</height>
-   </size>
-  </property>
-  <property name="maximumSize">
-   <size>
-    <width>550</width>
-    <height>160</height>
+    <width>580</width>
+    <height>460</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>WOL</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout">
+   <layout class="QVBoxLayout" name="verticalLayout_4">
     <item>
      <spacer name="verticalSpacer_3">
       <property name="orientation">
        <enum>Qt::Vertical</enum>
       </property>
       <property name="sizeType">
-       <enum>QSizePolicy::Expanding</enum>
+       <enum>QSizePolicy::Fixed</enum>
       </property>
       <property name="sizeHint" stdset="0">
        <size>
         <width>20</width>
-        <height>7</height>
+        <height>5</height>
        </size>
       </property>
      </spacer>
@@ -51,7 +45,7 @@
        </font>
       </property>
       <property name="text">
-       <string>Ingrese la MAC y la interfaz de RED</string>
+       <string>Wake On Lan (WOL)</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -69,124 +63,231 @@
       <property name="sizeHint" stdset="0">
        <size>
         <width>20</width>
-        <height>10</height>
+        <height>5</height>
        </size>
       </property>
      </spacer>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="lineEditMAC">
-        <property name="minimumSize">
-         <size>
-          <width>220</width>
-          <height>25</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>220</width>
-          <height>25</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Fixed</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>10</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <widget class="QComboBox" name="comboBoxIfaces">
-        <property name="minimumSize">
-         <size>
-          <width>120</width>
-          <height>25</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>120</width>
-          <height>25</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer_4">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Fixed</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>10</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pushButtonWOL">
-        <property name="text">
-         <string>Despertar</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer_3">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-     </layout>
+     <widget class="QGroupBox" name="groupBox_2">
+      <property name="title">
+       <string>Datos del equipo</string>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_6">
+         <item>
+          <widget class="QLabel" name="label_4">
+           <property name="text">
+            <string>Descripción</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEditDescripcion"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>10</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>MAC address</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEditMAC"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>10</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <item>
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>Interfaz de RED</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboBoxIfaces">
+           <property name="minimumSize">
+            <size>
+             <width>140</width>
+             <height>0</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>10</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_5">
+         <item>
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Ignored</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButtonGuardar">
+           <property name="text">
+            <string>Guardar</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
     </item>
     <item>
-     <spacer name="verticalSpacer">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
+     <widget class="QGroupBox" name="groupBox">
+      <property name="title">
+       <string>Equipos guardados</string>
       </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>28</height>
-       </size>
-      </property>
-     </spacer>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QListWidget" name="listWidgetEquipos"/>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>10</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <spacer name="verticalSpacer_4">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButtonWOL">
+           <property name="text">
+            <string>Despertar</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButtonCargar">
+           <property name="text">
+            <string>Cargar</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButtonEliminar">
+           <property name="text">
+            <string>Eliminar</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_5">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -195,7 +296,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>550</width>
+     <width>580</width>
      <height>22</height>
     </rect>
    </property>
@@ -213,11 +314,13 @@
      <string>Acerca de</string>
     </property>
     <addaction name="actionAyuda"/>
+    <addaction name="separator"/>
     <addaction name="actionAcerca_de"/>
    </widget>
    <addaction name="menuOpciones"/>
    <addaction name="menuAcerca_de"/>
   </widget>
+  <widget class="QStatusBar" name="statusBar"/>
   <action name="actionSalir">
    <property name="text">
     <string>Salir</string>

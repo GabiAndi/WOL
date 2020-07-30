@@ -8,8 +8,11 @@
 #include <QByteArray>
 #include <QNetworkInterface>
 #include <QList>
+#include <QFile>
+#include <QTextStream>
 
-#include <QMessageBox>
+#include <QListWidget>
+#include <QListWidgetItem>
 
 #include "acercadewindow.h"
 
@@ -25,6 +28,8 @@ class MainWindow : public QMainWindow
         MainWindow(QWidget *parent = nullptr);
         ~MainWindow();
 
+        void sendMagicPackage(QString MAC, QString iface);
+
     private:
         Ui::MainWindow *ui;
 
@@ -39,5 +44,9 @@ class MainWindow : public QMainWindow
         void on_actionActualizar_interfaces_triggered();
         void on_actionSalir_triggered();
         void on_actionAcerca_de_triggered();
+        void on_pushButtonGuardar_clicked();
+        void on_pushButtonEliminar_clicked();
+        void on_listWidgetEquipos_itemDoubleClicked(QListWidgetItem *item);
+        void on_pushButtonCargar_clicked();
 };
 #endif // MAINWINDOW_H
