@@ -19,6 +19,10 @@
   <property name="windowTitle">
    <string>WOL</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>icono.ico</normaloff>icono.ico</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_4">
     <item>
@@ -313,7 +317,6 @@
     <property name="title">
      <string>Acerca de</string>
     </property>
-    <addaction name="actionAyuda"/>
     <addaction name="separator"/>
     <addaction name="actionAcerca_de"/>
    </widget>
@@ -329,11 +332,6 @@
   <action name="actionActualizar_interfaces">
    <property name="text">
     <string>Actualizar interfaces</string>
-   </property>
-  </action>
-  <action name="actionAyuda">
-   <property name="text">
-    <string>Ayuda</string>
    </property>
   </action>
   <action name="actionAcerca_de">

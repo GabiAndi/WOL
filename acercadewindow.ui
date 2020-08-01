@@ -26,7 +26,11 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Acerca de</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>icono.ico</normaloff>icono.ico</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">

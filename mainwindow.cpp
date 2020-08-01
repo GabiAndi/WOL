@@ -74,20 +74,19 @@ void MainWindow::sendMagicPackage(QString MAC, QString iface)
     // Se crea un scoket UDP
     QUdpSocket qudpsocket;
 
-    // Se obtione el indice de la interfaz
-    int ifaceIndex = 0;
+    // Se envia el paquete mágico al broadcast asi todos los equipor en la red lo escucharan
+    QNetworkInterface interface = QNetworkInterface::allInterfaces().at(QNetworkInterface::interfaceIndexFromName(iface) - 1);
+    QHostAddress address;
 
-    for (int i = 0 ; i < ui->comboBoxIfaces->count() ; i++)
+    for (QNetworkAddressEntry addressEntrie : interface.addressEntries())
     {
-        if (ui->comboBoxIfaces->itemText(i) == iface)
+        if (addressEntrie.ip().toString().count(".") == 3)
         {
-            ifaceIndex = i;
+            address = addressEntrie.ip();
         }
     }
 
-    // Se envia el paquete mágico al broadcast asi todos los equipor en la red lo escucharan
-    QString broadcastIP(QNetworkInterface::allAddresses()[ifaceIndex].toString().left(
-                QNetworkInterface::allAddresses()[ifaceIndex].toString().lastIndexOf('.')).append(".255"));
+    QString broadcastIP(address.toString().left(address.toString().lastIndexOf('.')).append(".255"));
 
     qudpsocket.writeDatagram(magicPackage, magicPackage.size(), QHostAddress(broadcastIP), 9);
 }
