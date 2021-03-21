@@ -5,14 +5,22 @@
 
 #include <QUdpSocket>
 #include <QNetworkDatagram>
-#include <QByteArray>
 #include <QNetworkInterface>
-#include <QList>
-#include <QFile>
-#include <QTextStream>
 
-#include <QListWidget>
-#include <QListWidgetItem>
+#include <QByteArray>
+#include <QList>
+
+#include <QDebug>
+
+#include <QFile>
+#include <QDir>
+
+#include <QTreeWidget>
+#include <QTreeWidgetItem>
+
+#include <QJsonObject>
+#include <QJsonValue>
+#include <QJsonDocument>
 
 #include "acercadewindow.h"
 
@@ -33,11 +41,14 @@ class MainWindow : public QMainWindow
     private:
         Ui::MainWindow *ui;
 
-        QList<QNetworkInterface> *interfaces = nullptr;
+        const QString JsonFileName = QDir::currentPath() + "/equipos.json";
 
         AcercaDeWindow *acercaDe = nullptr;
 
         void getInterfaces();
+
+        void saveJsonData();
+        void readJsonData();
 
     private slots:
         void on_pushButtonWOL_clicked();
@@ -46,7 +57,6 @@ class MainWindow : public QMainWindow
         void on_actionAcerca_de_triggered();
         void on_pushButtonGuardar_clicked();
         void on_pushButtonEliminar_clicked();
-        void on_listWidgetEquipos_itemDoubleClicked(QListWidgetItem *item);
         void on_pushButtonCargar_clicked();
 };
 #endif // MAINWINDOW_H

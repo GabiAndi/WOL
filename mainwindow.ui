@@ -221,7 +221,23 @@
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
-        <widget class="QListWidget" name="listWidgetEquipos"/>
+        <widget class="QTreeWidget" name="treeWidgetEquipos">
+         <column>
+          <property name="text">
+           <string>Descripción</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>MAC</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Interfaz de red</string>
+          </property>
+         </column>
+        </widget>
        </item>
        <item>
         <spacer name="horizontalSpacer">
