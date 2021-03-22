@@ -21,6 +21,7 @@
 #include <QJsonObject>
 #include <QJsonValue>
 #include <QJsonDocument>
+#include <QJsonArray>
 
 #include "acercadewindow.h"
 
@@ -58,5 +59,6 @@ class MainWindow : public QMainWindow
         void on_pushButtonGuardar_clicked();
         void on_pushButtonEliminar_clicked();
         void on_pushButtonCargar_clicked();
+        void on_treeWidgetEquipos_itemDoubleClicked(QTreeWidgetItem *item, int column);
 };
 #endif // MAINWINDOW_H

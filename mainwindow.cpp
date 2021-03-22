@@ -57,18 +57,20 @@ void MainWindow::sendMagicPackage(QString MAC, QString iface)
     QNetworkInterface interface = QNetworkInterface::allInterfaces().at(QNetworkInterface::interfaceIndexFromName(iface) - 1);
     QHostAddress address;
 
-    for (QNetworkAddressEntry addressEntrie : interface.addressEntries())
+    for (int i = 0 ; i < interface.addressEntries().length() ; i++)
     {
-        if (addressEntrie.ip().toString().count(".") == 3)
+        // Se verifica si la IP es válida
+        if (interface.addressEntries().at(i).ip().toString().count(".") == 3)
         {
-            address = addressEntrie.ip();
+            address = interface.addressEntries().at(i).ip();
+
+            // De la IP se obtiene el broadcast
+            QString broadcastIP(address.toString().left(address.toString().lastIndexOf('.')).append(".255"));
+
+            // Se envia el paquete mágico al broadcd ast asi todos los equipor en la red lo escucharan
+            qudpsocket.writeDatagram(magicPackage, magicPackage.size(), QHostAddress(broadcastIP), 9);
         }
     }
-
-    QString broadcastIP(address.toString().left(address.toString().lastIndexOf('.')).append(".255"));
-
-    // Se envia el paquete mágico al broadcd ast asi todos los equipor en la relo escucharan
-    qudpsocket.writeDatagram(magicPackage, magicPackage.size(), QHostAddress(broadcastIP), 9);
 }
 
 void MainWindow::getInterfaces()
@@ -86,21 +88,34 @@ void MainWindow::getInterfaces()
 
 void MainWindow::saveJsonData()
 {
-    QJsonDocument json;
-    QJsonObject equipo;
-
     QFile data(JsonFileName);
 
     if (data.open(QIODevice::WriteOnly | QIODevice::Text))
     {
-        // Se pasa la información de la lista de equipos al QByteArray
-        equipo["desc"] = ui->lineEditDescripcion->text();
-        equipo["mac"] = ui->lineEditMAC->text();
-        equipo["iface"] = ui->comboBoxIfaces->currentText();
+        QJsonDocument json;
+        QJsonObject obj;
+        QJsonArray values;
+        QJsonObject objs;
+        QByteArray dataJson;
 
-        json.setObject(equipo);
+        // Se añaden los equipos que esten guardados
+        for (int i = 0 ; i < ui->treeWidgetEquipos->topLevelItemCount() ; i++)
+        {
+            // Se añaden los campos de valor
+            obj["desc"] = ui->treeWidgetEquipos->topLevelItem(i)->text(0);
+            obj["mac"] = ui->treeWidgetEquipos->topLevelItem(i)->text(1);
+            obj["iface"] = ui->treeWidgetEquipos->topLevelItem(i)->text(2);
 
-        QByteArray dataJson = json.toJson();
+            // Se agrega el obj a un array
+            values.append(obj);
+        }
+
+        // Se almacenan todos los equipos en un objeto padre
+        objs["equipos"] = values;
+
+        json.setObject(objs);
+
+        dataJson = json.toJson();
 
         // Se escribe el contenido en el archivo
         data.write(dataJson);
@@ -117,28 +132,42 @@ void MainWindow::saveJsonData()
 
 void MainWindow::readJsonData()
 {
-    QJsonDocument json;
-    QJsonObject equipo;
-
     QFile data(JsonFileName);
 
     if (data.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        QByteArray dataJson = data.readAll();
+        QJsonDocument json;
+        QJsonObject obj;
+        QJsonArray values;
+        QJsonObject objs;
+        QByteArray dataJson;
+
+        // Se lee el contenido del archivo
+        dataJson = data.readAll();
 
         json = json.fromJson(dataJson);
-        equipo = json.object();
 
-        ui->lineEditDescripcion->setText(equipo["desc"].toString());
-        ui->lineEditMAC->setText(equipo["mac"].toString());
+        objs = json.object();
 
-        int index = ui->comboBoxIfaces->findText(equipo["iface"].toString());
+        values.append(objs["equipos"].toArray());
+        values = values.at(0).toArray();
 
-        if (index != -1)
+        // Se leen los equipos que esten guardados
+        for (int i = 0 ; i < values.size() ; i++)
         {
-            ui->comboBoxIfaces->setCurrentIndex(index);
+            // Se leen los campos de valor
+            QStringList equipo;
+
+            obj = values.at(i).toObject();
+
+            equipo.append(obj["desc"].toString());
+            equipo.append(obj["mac"].toString());
+            equipo.append(obj["iface"].toString());
+
+            ui->treeWidgetEquipos->addTopLevelItem(new QTreeWidgetItem(equipo));
         }
 
+        // Se cierra el archivo
         data.close();
 
         ui->statusBar->showMessage("Leido correctamente el archivo de equipos");
@@ -152,16 +181,16 @@ void MainWindow::readJsonData()
 
 void MainWindow::on_pushButtonWOL_clicked()
 {
-    /*if (ui->listWidgetEquipos->currentItem() != nullptr)
+    if (ui->treeWidgetEquipos->currentItem() != nullptr)
     {
         // Se extrae la MAC
-        QString dato(ui->listWidgetEquipos->currentItem()->text());
-
-        QStringList datos = dato.split(" | ");
+        QString mac(ui->treeWidgetEquipos->currentItem()->text(1));
+        // Se obtiene la interfaz de red
+        QString iface(ui->treeWidgetEquipos->currentItem()->text(2));
 
         // Se envia el pulso de encendido
-        sendMagicPackage(datos.at(1), datos.at(2));
-    }*/
+        sendMagicPackage(mac, iface);
+    }
 }
 
 void MainWindow::on_actionActualizar_interfaces_triggered()
@@ -188,7 +217,6 @@ void MainWindow::on_pushButtonGuardar_clicked()
     {
         QStringList equipo;
 
-        equipo.clear();
         equipo.append(ui->lineEditDescripcion->text());
         equipo.append(ui->lineEditMAC->text());
         equipo.append(ui->comboBoxIfaces->currentText());
@@ -201,48 +229,48 @@ void MainWindow::on_pushButtonGuardar_clicked()
 
 void MainWindow::on_pushButtonEliminar_clicked()
 {
-    /*if (ui->listWidgetEquipos->currentItem() != nullptr)
+    if (ui->treeWidgetEquipos->currentItem() != nullptr)
     {
-        delete ui->listWidgetEquipos->currentItem();
+        // Se elimina el archivo
+        delete ui->treeWidgetEquipos->currentItem();
 
-        // Se abre el archivo de los equipos guardados
-        QFile file("equipos.txt");
-
-        // El archivo se pudo abrir
-        if (file.open(QIODevice::WriteOnly))
-        {
-            QTextStream texto(&file);
-
-            texto.flush();
-
-            for (int i = 0 ; i < ui->listWidgetEquipos->count() ; i++)
-            {
-                texto << QString(ui->listWidgetEquipos->item(i)->text() + ";");
-            }
-
-            file.close();
-        }
-    }*/
+        saveJsonData();
+    }
 }
 
 void MainWindow::on_pushButtonCargar_clicked()
 {
-    /*if (ui->listWidgetEquipos->currentItem() != nullptr)
+    if (ui->treeWidgetEquipos->currentItem() != nullptr)
+    {
+        // Se extran los datos
+        QString desc(ui->treeWidgetEquipos->currentItem()->text(0));
+        QString mac(ui->treeWidgetEquipos->currentItem()->text(1));
+        QString iface(ui->treeWidgetEquipos->currentItem()->text(2));
+
+        ui->lineEditDescripcion->setText(desc);
+        ui->lineEditMAC->setText(mac);
+
+        int index = ui->comboBoxIfaces->findText(iface);
+
+        if (index != -1)
+        {
+            ui->comboBoxIfaces->setCurrentIndex(index);
+        }
+    }
+}
+
+void MainWindow::on_treeWidgetEquipos_itemDoubleClicked(QTreeWidgetItem *item, int column)
+{
+    Q_UNUSED(column);
+
+    if (item != nullptr)
     {
         // Se extrae la MAC
-        QString dato(ui->listWidgetEquipos->currentItem()->text());
+        QString mac(item->text(1));
+        // Se obtiene la interfaz de red
+        QString iface(item->text(2));
 
-        QStringList datos = dato.split(" | ");
-
-        ui->lineEditDescripcion->setText(datos.at(0));
-        ui->lineEditMAC->setText(datos.at(1));
-
-        for (int i = 0 ; i < ui->comboBoxIfaces->count() ; i++)
-        {
-            if (ui->comboBoxIfaces->itemText(i) == datos.at(2))
-            {
-                ui->comboBoxIfaces->setCurrentIndex(i);
-            }
-        }
-    }*/
+        // Se envia el pulso de encendido
+        sendMagicPackage(mac, iface);
+    }
 }
